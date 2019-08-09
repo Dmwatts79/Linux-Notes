@@ -1,0 +1,58 @@
+THE LINUX BOOT PROCESS
+
+Computer start > BIOS checks for I/O devices > locates harddrive > search for a boot loader (Usually EFI partition) > boot loader loads RAM disk > RAM disk mounts the init system.
+
+BOOT lOGS
+   Dmesg - is used to view your kernel ring buffer ( a live always changing view ) much older 
+   Journalctl -k  is a much newer way on SystemD systems to view your logs. 
+
+INIT PROCESS
+  Init for older SystemV systems,
+  the big issue with init is that services can only start one at a time, which caused issues if a service had issues starting/stopping.
+  Init looks for sbin/init when attempting to had over control
+  it also reads its config located in etc/config. 
+
+INITTAB FILES:
+  these files have 3 aspects to them:     <identifier>:<runlevel>:<action>  EX: si::sysinit: /etc/rc/d/rc.sysinit 
+
+
+
+
+UPSTART PROCESS 
+  Upstart for ubuntu allowed for simultaneous loading of services which drastically cut down the boot time of systems in general. 
+  Upstart also allowed for live monitoring of services is terms of (Events). When a service would crash Upstart would attempt up to 10 times to bring it back on before a administrator was needed. 
+  
+  Events have various states in which they are waiting for things to occur.
+  1 - Waiting state ( waiting for somthing to happen )
+  2 - Starting state ( think of this as pre-start )
+  3 - running state ( somthing is actually happening )
+  4 - Stopping state ( the event is stopping but not stopped )
+  5 - killed state ( the event is now 100 % stopped )
+  6 - Post-stopped ( the event is now looking to head back to state # 1 ) 
+
+UPSTART BOOT SEQUENCE
+                              /etc/init/re-sysinit - telinit - runlevel - etc/init/rc.conf - login 
+			    /
+  /sbin/init > Starts system 
+  			    \
+			      mountall occurs
+
+SystemD PROCESS
+
+  SystemD utilizes Unit files rather than bash scripts.
+  To view your unit files : systemctl list-unit-files. This is a sym-link to sbin/init (cool eh? )
+  the usual format of a unit file is ( Not inclusive ) 
+  	[unit]
+	Description
+	requires
+	conflicts
+	after or before 
+
+
+  These unit files are located in 3 areas 
+     Package installiation area - /usr/lib/systemd/system (DO NOT CHANGE THESE)
+     System Admin land - /etc/systemd/system (change these as these take precedence over PI area ) 
+     runtime - /run/systemd/system 
+
+  
+

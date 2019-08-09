@@ -1,0 +1,37 @@
+SysVinit and upstart runlevels. 
+
+0 = halt
+1 = single user 
+2 = multi w/o networking
+3 = multi w/ networking
+4 = unused
+5 = multi w/ networking w/ graphical
+6 = reboot
+
+To display current runlevel: runlevel 
+to change to a different runlevel: telinit  EX: telinit 3 will change to multi w/ networking 
+
+SYSTEMD TARGETS
+target types:
+  multi-user.target - similar to telinit 3 
+  graphical-user.target - similar to telinit 5
+  rescue.target 
+  basic.target
+  sysinit.target
+
+View targets with : systemctl list-unit-files -t target
+view default target: systemctl get-default 
+set new target default: systemctl isolate <target>
+repair your system: systemctl rescue
+poweroff: systemctl poweroff
+
+
+
+Rebooting and shutdown
+ Ways to reboot: reboot, telinit 6, shutdown -r now, systemctl isolate reboot.target
+
+Wall command can be used to send message to all users logged into system to save work before shutdown.
+
+ACPID - Advanced Configuration Power Interface 
+   is used to monitor when laptop lids are closed, keys are pressed in a hibernated state, and when the power button is pressed.
+

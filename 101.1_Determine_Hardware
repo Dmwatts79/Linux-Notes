@@ -1,0 +1,37 @@
+PSUEDO FILE SYSTEMS (101.1)
+What is a Psuedo-file system (PFS)
+PFS is a file system that is only run on ram. These PFS' are considered volitile since the data will be lost in cases of shutdown or reboot. 
+
+
+The two main psuedo-file-systems on linux based OS' are /proc and  files that have a corresponding (PID) running.
+/proc file system involves files that have a corresponding (PID) running.
+/sys file system are files are contain Hardware and kernel information about the system.
+
+Interact with PFS'
+
+Commands! 
+  uname - a command that searches /sys and outputs your query. 
+  EX: uname -m gathers machine information
+      uname -rm gathers machine information + kernel release information.
+      uname -a prints all information that your want in regards to the kernel.
+  
+  lsmod - a command that lists information about your system modules.
+  modinfo <mod_name> - lists mod_name specfic information.
+  modprobe - r  - a command that removes the module and 'unloads' it from the system. "Remember unloading the floppy module?"
+
+HARDWARE INVESTIGATION
+How to identify what hardware is currently installed and gather info about the devices. 
+
+Commands!
+   udev - Is the linux device manager.
+       When a user installs a new piece of hardware (usb) in this case.
+         A layer called the dbus gathers this and stores it in a location called /dev.
+   lsblk - short for "list block devices" 
+       lsblk sends a query to dbus which points to udev. udev returns a list of the queried devices on the system.
+   lspci - short for "List pci devices"
+       lspci sends a query to dbus which point to udev. udev returns the query of installed pci devices on the system.
+   lsusb - short for "List usb devices"
+       same as above. 
+   lscpu - short for "list CPU info"
+       same as above.
+   
